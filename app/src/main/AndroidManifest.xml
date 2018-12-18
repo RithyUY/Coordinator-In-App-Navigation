@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.rithyuy.coodinatordemo">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -32,6 +34,9 @@
             android:name=".src.main.MainActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".src.projectdetail.ProjectDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

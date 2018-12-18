@@ -7,7 +7,7 @@ import io.reactivex.subjects.PublishSubject
 
 object AnimationUtil {
 
-    fun animate(animator: ObjectAnimator) : Observable<Boolean> {
+    fun animate(animator: Animator) : Observable<Boolean> {
         val observable = PublishSubject.create<Boolean>()
         animator.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {

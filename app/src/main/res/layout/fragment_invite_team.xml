@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/header"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
         android:layout_height="55dp">
 
         <TextView
@@ -16,17 +16,40 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Team member"
+            android:text="Invite team"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Next"
+            android:id="@+id/btnNext"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="@drawable/primary_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMember"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingBottom="120dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:overScrollMode="never"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +80,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
             android:text="Did you know"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/roboto_regular"/>
+            android:textColor="@android:color/black" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -71,26 +94,34 @@
             android:textAlignment="center" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:text="Add member"
-            android:textStyle="bold"
-            android:textAllCaps="false"
-            android:paddingHorizontal="24dp"
-            android:background="@drawable/primary_button"
             android:id="@+id/btnAdd"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:background="@drawable/primary_button"
+            android:paddingHorizontal="24dp"
+            android:text="Add member"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <Button
-            android:layout_width="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:text="Skip"
-            android:layout_marginTop="16dp"
             android:id="@+id/btnSkip"
-            android:textColor="#bcbcbc"
-            android:layout_height="wrap_content" />
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Skip"
+            android:textColor="#bcbcbc" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/bottom_shadow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

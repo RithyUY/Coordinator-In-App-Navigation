@@ -3,15 +3,15 @@ package com.rithyuy.coodinatordemo.src.createproject
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.rithyuy.coodinatordemo.R
 import com.rithyuy.coodinatordemo.adapter.ViewPagerAdapter
+import com.rithyuy.coodinatordemo.src.createproject.launcproject.LaunchProjectFragment
 import com.rithyuy.coodinatordemo.src.createproject.projectname.ProjectNameFragment
-import com.rithyuy.coodinatordemo.src.createproject.teammember.TeamMemberFragment
+import com.rithyuy.coodinatordemo.src.createproject.teammember.InviteTeamFragment
 import kotlinx.android.synthetic.main.activity_create_project.*
 import java.lang.Exception
 
@@ -19,8 +19,8 @@ class CreateProjectActivity : AppCompatActivity(), FragmentHostNavigator {
 
     private val fragments = arrayListOf<Fragment>(
             ProjectNameFragment().bindHost(this),
-            TeamMemberFragment().bindHost(this),
-            ProjectNameFragment().bindHost(this)
+            InviteTeamFragment().bindHost(this),
+            LaunchProjectFragment()
     )
 
     @SuppressLint("CheckResult")

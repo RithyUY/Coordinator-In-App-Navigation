@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class Navigator @Inject constructor(){
 
-    lateinit var activity: AppCompatActivity
+    private lateinit var activity: AppCompatActivity
 
     fun delegateTo(activity: AppCompatActivity) {
         this.activity = activity

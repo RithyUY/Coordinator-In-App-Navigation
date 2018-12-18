@@ -2,6 +2,7 @@ package com.rithyuy.coodinatordemo.di
 
 import com.rithyuy.coodinatordemo.App
 import com.rithyuy.coodinatordemo.src.createproject.projectname.ProjectNameViewModel
+import com.rithyuy.coodinatordemo.src.createproject.teammember.InviteTeamViewModel
 import com.rithyuy.coodinatordemo.src.main.MainViewModel
 import com.rithyuy.coodinatordemo.src.signup.SignUpActivity
 import dagger.Component
@@ -19,4 +20,6 @@ interface AppComponent {
     fun plus(signUpActivity: SignUpActivity)
 
     fun plus(projectNameVM: ProjectNameViewModel)
+
+    fun plus(inviteTeamViewModel: InviteTeamViewModel)
 }
