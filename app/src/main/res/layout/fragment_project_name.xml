@@ -34,7 +34,7 @@
         android:textStyle="bold"
         android:textAllCaps="false"
         android:background="@drawable/primary_button"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/primary_button_color"
         android:paddingHorizontal="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

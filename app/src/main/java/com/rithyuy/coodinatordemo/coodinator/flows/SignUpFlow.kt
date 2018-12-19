@@ -1,7 +1,7 @@
 package com.rithyuy.coodinatordemo.coodinator.flows
 
 import com.rithyuy.coodinatordemo.coodinator.Navigator
-import com.rithyuy.coodinatordemo.src.main.MainActivity
+import com.rithyuy.coodinatordemo.coodinator.flows.model.SignUpData
 import com.rithyuy.coodinatordemo.src.signup.SignUpActivity
 import javax.inject.Inject
 import javax.inject.Singleton

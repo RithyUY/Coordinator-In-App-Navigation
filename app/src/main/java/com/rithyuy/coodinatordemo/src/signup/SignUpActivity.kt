@@ -2,10 +2,9 @@ package com.rithyuy.coodinatordemo.src.signup
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.rithyuy.coodinatordemo.App
 import com.rithyuy.coodinatordemo.R
-import com.rithyuy.coodinatordemo.coodinator.flows.SignUpData
+import com.rithyuy.coodinatordemo.coodinator.flows.model.SignUpData
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 

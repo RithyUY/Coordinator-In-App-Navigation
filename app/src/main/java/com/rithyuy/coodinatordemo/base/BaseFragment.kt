@@ -12,7 +12,6 @@ import com.rithyuy.coodinatordemo.di.AppComponent
 abstract class BaseFragment<VM: BaseViewModel<*>>(target: Class<VM>) : Fragment(), BaseView {
 
     protected val viewModel: VM by lazy { ViewModelProviders.of(this).get(target) }
-    var rootView: View?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +22,7 @@ abstract class BaseFragment<VM: BaseViewModel<*>>(target: Class<VM>) : Fragment(
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if(rootView == null)
-            rootView = inflater.inflate(layoutResource, container, false)
-        return rootView
+        return inflater.inflate(layoutResource, container, false)
     }
 
     abstract fun setupAppComponent(appComponent: AppComponent)

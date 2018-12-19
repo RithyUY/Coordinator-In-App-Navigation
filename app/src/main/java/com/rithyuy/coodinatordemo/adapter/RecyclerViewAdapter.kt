@@ -9,7 +9,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 
 class RecyclerViewAdapter<VH : BaseViewHolder>(
-        private val items: ArrayList<Any>,
+        val items: ArrayList<Any>,
         private val viewHolderProvider: ViewHolderProvider<VH>,
         private val viewTypeProvider: ViewHolderViewTypeProvider? = null) : RecyclerView.Adapter<VH>() {
 
@@ -21,7 +21,7 @@ class RecyclerViewAdapter<VH : BaseViewHolder>(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.onBind(items[position])
-        holder.itemView.setOnClickListener { onItemClickListener.onNext(position) }
+        holder.itemView.setOnClickListener { onItemClickListener.onNext(holder.adapterPosition) }
     }
 
     override fun getItemCount() = items.size

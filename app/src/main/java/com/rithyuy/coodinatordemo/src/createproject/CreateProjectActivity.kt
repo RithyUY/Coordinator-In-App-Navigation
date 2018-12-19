@@ -2,18 +2,25 @@ package com.rithyuy.coodinatordemo.src.createproject
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.rithyuy.coodinatordemo.App
 import com.rithyuy.coodinatordemo.R
 import com.rithyuy.coodinatordemo.adapter.ViewPagerAdapter
+import com.rithyuy.coodinatordemo.coodinator.flows.CreateProjectFlow
+import com.rithyuy.coodinatordemo.extension.toast
 import com.rithyuy.coodinatordemo.src.createproject.launcproject.LaunchProjectFragment
 import com.rithyuy.coodinatordemo.src.createproject.projectname.ProjectNameFragment
 import com.rithyuy.coodinatordemo.src.createproject.teammember.InviteTeamFragment
 import kotlinx.android.synthetic.main.activity_create_project.*
 import java.lang.Exception
+import javax.inject.Inject
 
 class CreateProjectActivity : AppCompatActivity(), FragmentHostNavigator {
 
@@ -23,19 +30,31 @@ class CreateProjectActivity : AppCompatActivity(), FragmentHostNavigator {
             LaunchProjectFragment()
     )
 
+    @Inject
+    lateinit var projectFlow: CreateProjectFlow
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_project)
+        (application as App).appComponent.plus(this)
+        window.navigationBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         landingViewPager.adapter = ViewPagerAdapter(supportFragmentManager, fragments)
-        landingViewPager.scrollBarFadeDuration = 2
         window.statusBarColor = Color.WHITE
         setupPaging()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (application as App).navigator.delegateTo(this)
+    }
+
     private fun setupPaging() {
         landingViewPager.setDurationScroll(400)
-        //landingViewPager.beginFakeDrag()
+        landingViewPager.offscreenPageLimit = 2
+        landingViewPager.beginFakeDrag()
         landingViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -60,6 +79,7 @@ class CreateProjectActivity : AppCompatActivity(), FragmentHostNavigator {
         })
     }
 
+
     override fun moveNextOf(fragment: Fragment) {
         val page = fragments.indexOf(fragment) +1
         if(page < fragments.size)  landingViewPager.setCurrentItem(page, true)
@@ -77,6 +97,6 @@ class CreateProjectActivity : AppCompatActivity(), FragmentHostNavigator {
             movePreviousOf(fragments[landingViewPager.currentItem])
             return
         }
-        finish()
+        super.onBackPressed()
     }
 }

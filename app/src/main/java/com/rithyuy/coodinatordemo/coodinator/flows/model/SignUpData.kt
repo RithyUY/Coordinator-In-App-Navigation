@@ -1,4 +1,4 @@
-package com.rithyuy.coodinatordemo.coodinator.flows
+package com.rithyuy.coodinatordemo.coodinator.flows.model
 
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject

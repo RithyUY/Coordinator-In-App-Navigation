@@ -8,15 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rithyuy.coodinatordemo.R
 import com.rithyuy.coodinatordemo.adapter.RecyclerViewAdapter
 import com.rithyuy.coodinatordemo.base.BaseFragment
 import com.rithyuy.coodinatordemo.base.BaseView
 import com.rithyuy.coodinatordemo.base.ViewHolderProvider
 import com.rithyuy.coodinatordemo.di.AppComponent
+import com.rithyuy.coodinatordemo.extension.bind
 import com.rithyuy.coodinatordemo.src.createproject.FragmentHostNavigator
 import com.rithyuy.coodinatordemo.util.AnimationUtil
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_invite_team.*
 import kotlinx.android.synthetic.main.fragment_invite_team.view.*
 import kotlinx.android.synthetic.main.view_holder_team.view.*
 
@@ -46,9 +49,25 @@ class InviteTeamFragment : BaseFragment<InviteTeamViewModel>(InviteTeamViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        view.btnSkip.setOnClickListener { hostNavigator.moveNextOf(this) }
+        view.btnSkip.setOnClickListener { nextClick() }
         view.btnAdd.setOnClickListener { animateShowList(view) }
-        view.btnNext.setOnClickListener { hostNavigator.moveNextOf(this) }
+        view.btnNext.setOnClickListener{ nextClick() }
+        tvProjectName.bind(viewModel.onProjectNameChange)
+        rvMember.addOnScrollListener(recyclerScrolled)
+    }
+
+    private val recyclerScrolled = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            val layoutManager = recyclerView.layoutManager as GridLayoutManager
+            val visibleItem = layoutManager.findFirstCompletelyVisibleItemPosition()
+            header.elevation = if(visibleItem ==0) 0f else resources.getDimension(R.dimen.dimen_4dp)
+        }
+    }
+
+
+    private fun nextClick() {
+        hostNavigator.moveNextOf(this)
+        viewModel.submitInitialTeam()
     }
 
     private fun setupRecyclerView() {
@@ -59,6 +78,7 @@ class InviteTeamFragment : BaseFragment<InviteTeamViewModel>(InviteTeamViewModel
             this.rvMember.layoutManager = GridLayoutManager(context, 3)
             this.rvMember.adapter = adapter
         }
+
         disposables.add(adapter.onItemClickListener.subscribe(this::itemClick))
     }
 
@@ -85,7 +105,8 @@ class InviteTeamFragment : BaseFragment<InviteTeamViewModel>(InviteTeamViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         val itemView = layoutInflater.inflate(R.layout.view_holder_team, parent, false)
-        val itemSize = resources.displayMetrics.widthPixels / 3 - resources.getDimensionPixelSize(R.dimen.dimen_8dp)
+        val width =  resources.displayMetrics.widthPixels
+        val itemSize = ((width/3) - (resources.displayMetrics.widthPixels / 3) * 0.25).toInt()
         (itemView as ViewGroup).getChildAt(0).apply {
             layoutParams.width = itemSize
             layoutParams.height = itemSize

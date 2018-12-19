@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_check_circle_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/Applications/Android%20Studio.app/Contents/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_navigate_next_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -29,8 +29,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_startup" />
-                            <entry key="sourceFile" value="$USER_HOME$/Desktop/startup.svg" />
+                            <entry key="outputName" value="ic_next" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/next.svg" />
                           </map>
                         </option>
                       </PersistentState>
