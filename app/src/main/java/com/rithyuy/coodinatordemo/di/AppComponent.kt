@@ -7,6 +7,7 @@ import com.rithyuy.coodinatordemo.src.createproject.projectname.ProjectNameViewM
 import com.rithyuy.coodinatordemo.src.createproject.teammember.InviteTeamViewModel
 import com.rithyuy.coodinatordemo.src.main.MainViewModel
 import com.rithyuy.coodinatordemo.src.projectdetail.ProjectDetailViewModel
+import com.rithyuy.coodinatordemo.src.projectdetail.displayteam.DisplayTeamViewModel
 import com.rithyuy.coodinatordemo.src.signup.SignUpActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -31,4 +32,6 @@ interface AppComponent {
     fun plus(launchProjectViewModel: LaunchProjectViewModel)
 
     fun plus(projectHost: CreateProjectActivity)
+
+    fun plus(dpTeamViewModel: DisplayTeamViewModel)
 }

@@ -13,5 +13,8 @@ import javax.inject.Singleton
 class ProjectData @Inject constructor() {
 
     lateinit var projectName: String
+
     lateinit var initialTeam: ArrayList<Team>
+
+    var firstDisplayIndex: Int = 0
 }

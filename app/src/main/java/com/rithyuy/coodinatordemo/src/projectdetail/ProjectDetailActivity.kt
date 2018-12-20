@@ -1,17 +1,20 @@
 package com.rithyuy.coodinatordemo.src.projectdetail
 
+import android.annotation.TargetApi
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
+import com.rithyuy.coodinatordemo.App
 import com.rithyuy.coodinatordemo.R
+import com.rithyuy.coodinatordemo.adapter.ItemDragCallBack
 import com.rithyuy.coodinatordemo.adapter.RecyclerViewAdapter
 import com.rithyuy.coodinatordemo.base.BaseActivity
 import com.rithyuy.coodinatordemo.base.ViewHolderProvider
 import com.rithyuy.coodinatordemo.di.AppComponent
-import com.rithyuy.coodinatordemo.extension.toast
 import com.rithyuy.coodinatordemo.model.Team
 import com.rithyuy.coodinatordemo.src.createproject.teammember.TeamViewHolder
 import io.reactivex.disposables.Disposable
@@ -34,15 +37,21 @@ class ProjectDetailActivity : BaseActivity<ProjectDetailViewModel>(ProjectDetail
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        configureWindow()
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun configureWindow() {
         window.statusBarColor = Color.WHITE
+        window.navigationBarColor = Color.WHITE
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR
+                or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
     }
 
     override fun setupComponent(appComponent: AppComponent) {
         appComponent.plus(viewModel)
         tvProjectName.text = viewModel.projectName
         setupRecyclerView()
-        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
     private fun setupRecyclerView() {
@@ -52,39 +61,31 @@ class ProjectDetailActivity : BaseActivity<ProjectDetailViewModel>(ProjectDetail
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         recyclerView.adapter = mAdapter
         disposables.add(mAdapter.onItemClickListener.subscribe(this::itemClicked))
+        val itemDragCallBack = ItemDragCallBack(mAdapter.items, recyclerView,
+                ItemTouchHelper.LEFT or
+                        ItemTouchHelper.RIGHT or
+                        ItemTouchHelper.UP or
+                        ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT)
+
+        val itemTouchHelper = ItemTouchHelper(itemDragCallBack)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+        disposables.add(itemDragCallBack.onSwapItems.subscribe { swapItems(it.first, it.second) })
+        disposables.add(itemDragCallBack.onDeletedItem.subscribe { viewModel.teams.removeAt(it) })
+    }
+
+    private fun swapItems(fromPos: Int, toPos: Int) {
+        if (fromPos < toPos) {
+            for (i in fromPos until toPos) Collections.swap(viewModel.teams, i, i + 1)
+        } else {
+            for (i in fromPos downTo toPos + 1) Collections.swap(viewModel.teams, i, i - 1)
+        }
     }
 
     private fun itemClicked(position: Int) {
-        ( mAdapter.items[position] as? Team)?.apply { toast(name) }
-    }
-
-    private var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT, ItemTouchHelper.RIGHT) {
-
-        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            val fromPosition = viewHolder.adapterPosition
-            val toPosition = target.adapterPosition
-            if (fromPosition < toPosition) {
-                for (i in fromPosition until toPosition) {
-                    Collections.swap(mAdapter.items, i, i + 1)
-                }
-            } else {
-                for (i in fromPosition downTo toPosition + 1) {
-                    Collections.swap(mAdapter.items, i, i - 1)
-                }
-            }
-            mAdapter.notifyItemMoved(fromPosition, toPosition)
-            return true
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            val svH = viewHolder as TeamViewHolder
-            val item = mAdapter.items[svH.adapterPosition]
-            val index = mAdapter.items.indexOf(item)
-            mAdapter.items.remove(item)
-            mAdapter.notifyItemRemoved(index)
+        (mAdapter.items[position] as? Team)?.apply {
+            (application as App).appFlow.createProject.displayTeamAt(position)
         }
     }
-
 
     override fun onBackPressed() {
         finish()
@@ -97,12 +98,12 @@ class ProjectDetailActivity : BaseActivity<ProjectDetailViewModel>(ProjectDetail
         (itemView as ViewGroup).getChildAt(0).apply {
             layoutParams.width = itemSize
             layoutParams.height = itemSize
-            this.imgTeam.clipToOutline = true
+            imgTeam.clipToOutline = true
         }
         return TeamViewHolder(itemView)
     }
 
-    private fun viewPadding() : Int {
+    private fun viewPadding(): Int {
         return ((resources.displayMetrics.widthPixels / 3) * 0.25).toInt()
     }
 

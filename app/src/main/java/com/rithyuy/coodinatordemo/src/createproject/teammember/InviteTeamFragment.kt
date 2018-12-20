@@ -64,7 +64,6 @@ class InviteTeamFragment : BaseFragment<InviteTeamViewModel>(InviteTeamViewModel
         }
     }
 
-
     private fun nextClick() {
         hostNavigator.moveNextOf(this)
         viewModel.submitInitialTeam()
